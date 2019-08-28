@@ -1,14 +1,9 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
-## Two functions dedicated for caching and computation of an inverse
-## of a square matrix. 
-
-## Function creates a special "matrix" object that can cache its inverse.
+#####Cache Matrix cache the matrix for inversing#####
+#This function makes the chached Matrix
 makeCacheMatrix <- function(x = matrix()) {
-
+    #Safe check if matrix is NULL
     inv <- NULL
+	   #Getter and Setter function
     set <- function(y) {
         x <<- y
         inv <<- NULL
@@ -16,39 +11,22 @@ makeCacheMatrix <- function(x = matrix()) {
     get <- function() x
     setinverse <- function(inverse) inv <<- inverse
     getinverse <- function() inv
-    list(set = set, get = get,
-         setinverse = setinverse,
-         getinverse = getinverse)
+    list(set=set, get=get, setinverse=setinverse, getinverse=getinverse)
 }
 
+## This function return the inversed matrix
 
-## Write a short comment describing this function
 
-## Function retrieves the inverse from cache if it has already been calculated.
-## If the inverse has not been calculated yet, it performs the calculation.
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+## Return a matrix that is the inverse of 'x'
     inv <- x$getinverse()
     if(!is.null(inv)) {
-        message("getting cached data")
+        message("getting cached data.")
         return(inv)
     }
     data <- x$get()
-    inv <- solve(data, ...)
+	##This does the inverse of the matrix
+    inv <- solve(data)
     x$setinverse(inv)
     inv
 }
-
-## Testing:
-
-## Create a big square metrix (3000x3000):
-## > big_mtx <- replicate(3000, rnorm(3000))
-
-## Create a special matrix (containing big_mtx):
-## > cache_mtx <- makeCacheMatrix(big_mtx)
-
-## This should take some time to compute:
-## > cacheSolve(cache_mtx)
-
-## Now it should return the cached data:
-## > cacheSolve(cache_mtx)
